@@ -31,6 +31,14 @@ export const useTooltipHandlers = container => {
             const x = event.clientX - bounds.left
             const y = event.clientY - bounds.top
 
+            // hack to keep the tip inbounds
+            // Open issue: https://github.com/plouc/nivo/pull/631
+            // https://github.com/lytics/nivo/commit/5bfff3fdd4877f88da19f90d672fedd45c9c04b4
+            if (anchor === 'left' || anchor === 'right') {
+                if (x < bounds.width / 2) anchor = 'right'
+                else anchor = 'left'
+            }
+
             setState({
                 isVisible: true,
                 position: [x, y],
